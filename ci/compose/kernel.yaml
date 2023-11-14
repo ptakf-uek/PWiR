@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  app:
+    build:
+        context: ../..
+        dockerfile: ci/dockerfiles/backend-dev.Dockerfile
+    deploy:
+      replicas: 8
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: postgres:15
+
+#    ports:
+#      - "5432:5432"
+
+  cache:
+    image: redis:6.2
+#    ports:
+#      - "6379:6379"
+  queue:
+    image: rabbitmq:3.12
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
