@@ -14,3 +14,11 @@ repos:
       - id: conventional-pre-commit
         stages: [ commit-msg ]
         args: [ ] # optional: list of Conventional Commits types to allow e.g. [feat, fix, ci, chore, test]
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.7.0
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+      - id: poetry-export
+        args: ["-f", "requirements.txt", "-o", "ci/requirements/requirements.txt"]
+      - id: poetry-install
