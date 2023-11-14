@@ -20,7 +20,16 @@ repos:
       - id: poetry-check
       - id: poetry-lock
       - id: poetry-export
-        args: ["-f", "requirements.txt", "-o", "ci/requirements/production-requirements.txt", "--without-hashes", "--without-urls", "--without=development"]
+        args: [ "-f", "requirements.txt", "-o", "ci/requirements/production-requirements.txt", "--without-hashes", "--without-urls", "--without=development" ]
       - id: poetry-export
-        args: ["-f", "requirements.txt", "-o", "ci/requirements/development-requirements.txt", "--without-hashes", "--without-urls", "--with=development"]
+        args: [ "-f", "requirements.txt", "-o", "ci/requirements/development-requirements.txt", "--without-hashes", "--without-urls", "--with=development" ]
       - id: poetry-install
+  - repo: local
+    hooks:
+      - id: pre-commit-django-migrations
+        name: Check django migrations
+        entry: python ./backend/manage.py makemigrations --dry-run --no-input --check
+        language: system
+        types: [ python ]
+        pass_filenames: false
+        files: ^backend/
