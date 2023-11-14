@@ -22,5 +22,5 @@ repos:
       - id: poetry-export
         args: ["-f", "requirements.txt", "-o", "ci/requirements/production-requirements.txt", "--without-hashes", "--without-urls", "--without=development"]
       - id: poetry-export
-        args: ["-f", "requirements.txt", "-o", "ci/requirements/development-requirements.txt"]
+        args: ["-f", "requirements.txt", "-o", "ci/requirements/development-requirements.txt", "--without-hashes", "--without-urls", "--with=development"]
       - id: poetry-install
