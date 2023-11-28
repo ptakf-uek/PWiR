@@ -63,11 +63,9 @@ class ProxylistDownloadApi:
                 if api_response != "":
                     self.logger.debug("Response is not empty!")
                     for line in api_response.splitlines():
-                        split_line = line.strip().split(":")
-
                         proxy_dict = {
-                            "ip_address": split_line[0],
-                            "port": split_line[1],
+                            "ip_address": line.strip().split(":")[0],
+                            "port": line.strip().split(":")[1],
                             "country": country_dict[country_code],
                         }
 

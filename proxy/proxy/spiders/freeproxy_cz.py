@@ -21,4 +21,4 @@ class FreeproxyCzSpider(scrapy.Spider):
     def getIpAddress(self, js_command):
         return base64.b64decode(
             js_command[28:-2]
-        ).decode()  # Check how many characters actually needs to be removed.
+        ).decode()  # TODO: Check how many characters actually needs to be removed.
