@@ -11,8 +11,9 @@ class ProxylistDownloadSpider(scrapy.Spider):
             yield {
                 "ip_address": row.css("td:nth-child(1)::text").get().strip(),
                 "port": row.css("td:nth-child(2)::text").get().strip(),
-                "country": row.css("td:nth-child(4) a::text").get().strip()
+                "country": row.css("td:nth-child(4) a::text").get().strip(),
             }
+
 
 # There are two APIs available, although neither of them allows bots to simply scrape them:
 # https://www.proxy-list.download/api/v1/get?type=http&country=US

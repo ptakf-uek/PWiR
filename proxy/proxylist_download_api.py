@@ -1,8 +1,9 @@
-import requests
 import argparse
-import logging
 import json
+import logging
 from time import sleep
+
+import requests
 from utils.country_dict import country_dict
 
 
@@ -10,9 +11,18 @@ class ProxylistDownloadApi:
     def __init__(self):
         # Configure command line arguments.
         parser = argparse.ArgumentParser(
-            description="Download a list of proxies from proxy-list.download using the official API.")
-        parser.add_argument("-q", "--quiet", dest="quiet", help="do not log debug info", action="store_true")
-        parser.add_argument("-O", "--output", dest="output", help="save output to this file")
+            description="Download a list of proxy from proxy-list.download using the official API."
+        )
+        parser.add_argument(
+            "-q",
+            "--quiet",
+            dest="quiet",
+            help="do not log debug info",
+            action="store_true",
+        )
+        parser.add_argument(
+            "-O", "--output", dest="output", help="save output to this file"
+        )
         self.args = parser.parse_args()
 
         # Configure logging.
@@ -20,7 +30,9 @@ class ProxylistDownloadApi:
         self.logger.setLevel(logging.DEBUG)
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.DEBUG)
-        console_handler.setFormatter(logging.Formatter("%(asctime)s [%(module)s] %(levelname)s: %(message)s"))
+        console_handler.setFormatter(
+            logging.Formatter("%(asctime)s [%(module)s] %(levelname)s: %(message)s")
+        )
         self.logger.addHandler(console_handler)
 
         if self.args.quiet:
@@ -34,10 +46,14 @@ class ProxylistDownloadApi:
 
         for country_code in country_dict:
             self.logger.debug("Waiting before request...")
-            sleep(5)  # Wait 5 seconds before each request to avoid overloading the server.
+            sleep(
+                5
+            )  # Wait 5 seconds before each request to avoid overloading the server.
 
             single_country_api_url = self.base_api_url + f"&country={country_code}"
-            self.logger.debug(f"Sending an HTTP GET request to {single_country_api_url}...")
+            self.logger.debug(
+                f"Sending an HTTP GET request to {single_country_api_url}..."
+            )
             response = requests.get(single_country_api_url)
 
             if response.status_code == requests.codes.ok:
@@ -52,18 +68,21 @@ class ProxylistDownloadApi:
                         proxy_dict = {
                             "ip_address": split_line[0],
                             "port": split_line[1],
-                            "country": country_dict[country_code]
+                            "country": country_dict[country_code],
                         }
 
                         self.logger.debug(
-                            f"Downloaded from <{response.status_code} {single_country_api_url}>\n{proxy_dict}")
+                            f"Downloaded from <{response.status_code} {single_country_api_url}>\n{proxy_dict}"
+                        )
 
                         proxy_list.append(proxy_dict)
                 else:
                     self.logger.debug("Response is empty!")
 
             else:
-                self.logger.debug(f"Error on connection <{response.status_code} {single_country_api_url}>")
+                self.logger.debug(
+                    f"Error on connection <{response.status_code} {single_country_api_url}>"
+                )
 
                 if response.status_code == "429":
                     sleep(25)

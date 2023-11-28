@@ -4,6 +4,7 @@ FROM python:3.11-bookworm as backend-dev
 
 WORKDIR /PWiR
 COPY backend .
+EXPOSE 8000
 
 # Where to store apt libs
 ARG APT_LIB_DIR=/var/lib/apt
